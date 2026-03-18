@@ -1,5 +1,30 @@
+import { useState } from "react"
+const api_url = "https://67c5b4f3351c081993fb1ab6.mockapi.io/api/posts"
 
 function App() {
+
+  const initialFormData = {
+    author: "",
+    title: "",
+    body: "",
+    public: false
+  }
+
+  const [formData, setFormData] = useState(initialFormData)
+
+  function handleInput(e) {
+    const value = (e.target.type === "checkbox" ? e.target.checked : e.target.value)
+    setFormData({ ...formData, [e.target.name]: value })
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault()
+    console.log(formData)
+    //mandare i dati all'API
+    setFormData(initialFormData)
+    alert("Post uploaded!")
+
+  }
 
   return (
     <>
@@ -8,15 +33,44 @@ function App() {
       </header>
       <main>
         <div className="container">
-          <form >
-            <input type="text" name="author" className="form-control mt-3 border-secondary-subtle" placeholder="Author" />
-            <input type="text" name="title" className="form-control mt-3 border-secondary-subtle" placeholder="Title" />
-            <textarea type="text" name="body" className="form-control mt-3 border-secondary-subtle" placeholder="Body" />
+
+          <form onSubmit={handleSubmit} >
+
+            <input type="text"
+              className="form-control mt-3 border-secondary-subtle"
+              name="author"
+              placeholder="Author"
+              value={formData.author}
+              onChange={e => handleInput(e)} />
+
+            <input type="text"
+              className="form-control mt-3 border-secondary-subtle"
+              placeholder="Title"
+              name="title"
+              value={formData.title}
+              onChange={e => handleInput(e)} />
+
+            <textarea type="text"
+              className="form-control mt-3 border-secondary-subtle"
+              placeholder="Body"
+              name="body"
+              value={formData.body}
+              onChange={e => handleInput(e)} />
+
             <div className="form-check mt-3 ">
-              <input className="form-check-input border-secondary" type="checkbox" value="" id="checkDefault" />
+              <input className="form-check-input border-secondary"
+                type="checkbox"
+                id="checkDefault"
+                name="public"
+                checked={formData.public}
+                onChange={e => handleInput(e)} />
               <label className="form-check-label" htmlFor="checkDefault">
                 Public
               </label>
+            </div>
+
+            <div className="text-center">
+              <button className="btn btn-primary mt-3 px-5 ">Post</button>
             </div>
           </form>
         </div>
@@ -26,3 +80,4 @@ function App() {
 }
 
 export default App
+
