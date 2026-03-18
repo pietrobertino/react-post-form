@@ -1,4 +1,5 @@
 import { useState } from "react"
+import axios from 'axios';
 const api_url = "https://67c5b4f3351c081993fb1ab6.mockapi.io/api/posts"
 
 function App() {
@@ -19,8 +20,16 @@ function App() {
 
   function handleSubmit(e) {
     e.preventDefault()
-    console.log(formData)
     //mandare i dati all'API
+    axios.post(api_url, formData)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+
     setFormData(initialFormData)
     alert("Post uploaded!")
 
